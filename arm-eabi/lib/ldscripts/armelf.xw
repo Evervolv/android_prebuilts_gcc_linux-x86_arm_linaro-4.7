@@ -23,7 +23,7 @@ SECTIONS
       *(.rel.text .rel.text.* .rel.gnu.linkonce.t.*)
       *(.rel.fini)
       *(.rel.rodata .rel.rodata.* .rel.gnu.linkonce.r.*)
-      *(.rel.data.rel.ro* .rel.gnu.linkonce.d.rel.ro.*)
+      *(.rel.data.rel.ro .rel.data.rel.ro.* .rel.gnu.linkonce.d.rel.ro.*)
       *(.rel.data .rel.data.* .rel.gnu.linkonce.d.*)
       *(.rel.tdata .rel.tdata.* .rel.gnu.linkonce.td.*)
       *(.rel.tbss .rel.tbss.* .rel.gnu.linkonce.tb.*)
@@ -161,7 +161,7 @@ SECTIONS
     KEEP (*(.dtors))
   }
   .jcr            : { KEEP (*(.jcr)) }
-  .data.rel.ro : { *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*) *(.data.rel.ro* .gnu.linkonce.d.rel.ro.*) }
+  .data.rel.ro : { *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*) *(.data.rel.ro .data.rel.ro.* .gnu.linkonce.d.rel.ro.*) }
   .dynamic        : { *(.dynamic) }
   .got            : { *(.got.plt) *(.igot.plt) *(.got) *(.igot) }
   .data           :

@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "OBJCOPY 1"
-.TH OBJCOPY 1 "2012-05-18" "binutils-2.22.52.0.3" "GNU Development Tools"
+.TH OBJCOPY 1 "2012-06-20" "binutils-2.22.52.0.4" "GNU Development Tools"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -191,6 +191,8 @@ objcopy [\fB\-F\fR \fIbfdname\fR|\fB\-\-target=\fR\fIbfdname\fR]
         [\fB\-\-add\-gnu\-debuglink=\fR\fIpath-to-file\fR]
         [\fB\-\-keep\-file\-symbols\fR]
         [\fB\-\-only\-keep\-debug\fR]
+        [\fB\-\-strip\-dwo\fR]
+        [\fB\-\-extract\-dwo\fR]
         [\fB\-\-extract\-symbol\fR]
         [\fB\-\-writable\-text\fR]
         [\fB\-\-readonly\-text\fR]
@@ -842,6 +844,21 @@ currently only supports the presence of one filename containing
 debugging information, not multiple filenames on a one-per-object-file
 basis.
 .RE
+.IP "\fB\-\-strip\-dwo\fR" 4
+.IX Item "--strip-dwo"
+Remove the contents of all \s-1DWARF\s0 .dwo sections, leaving the
+remaining debugging sections and all symbols intact.
+This option is intended for use by the compiler as part of
+the \fB\-gsplit\-dwarf\fR option, which splits debug information
+between the .o file and a separate .dwo file.  The compiler
+generates all debug information in the same file, then uses
+the \fB\-\-extract\-dwo\fR option to copy the .dwo sections to
+the .dwo file, then the \fB\-\-strip\-dwo\fR option to remove
+those sections from the original .o file.
+.IP "\fB\-\-extract\-dwo\fR" 4
+.IX Item "--extract-dwo"
+Extract the contents of all \s-1DWARF\s0 .dwo sections.  See the
+\&\fB\-\-strip\-dwo\fR option for more information.
 .IP "\fB\-\-file\-alignment\fR \fInum\fR" 4
 .IX Item "--file-alignment num"
 Specify the file alignment.  Sections in the file will always begin at

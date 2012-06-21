@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "OBJDUMP 1"
-.TH OBJDUMP 1 "2012-05-18" "binutils-2.22.52.0.3" "GNU Development Tools"
+.TH OBJDUMP 1 "2012-06-20" "binutils-2.22.52.0.4" "GNU Development Tools"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -598,7 +598,8 @@ Note that there is no single letter option to display the content of
 trace sections or .gdb_index.
 .Sp
 Note: the output from the \fB=info\fR option can also be affected
-by the options \fB\-\-dwarf\-depth\fR and \fB\-\-dwarf\-start\fR.
+by the options \fB\-\-dwarf\-depth\fR, the \fB\-\-dwarf\-start\fR and
+the \fB\-\-dwarf\-check\fR.
 .IP "\fB\-\-dwarf\-depth=\fR\fIn\fR" 4
 .IX Item "--dwarf-depth=n"
 Limit the dump of the \f(CW\*(C`.debug_info\*(C'\fR section to \fIn\fR children.
@@ -618,6 +619,9 @@ information and all DIEs before the \s-1DIE\s0 numbered \fIn\fR.  Only
 siblings and children of the specified \s-1DIE\s0 will be printed.
 .Sp
 This can be used in conjunction with \fB\-\-dwarf\-depth\fR.
+.IP "\fB\-\-dwarf\-check\fR" 4
+.IX Item "--dwarf-check"
+Enable additional checks for consistency of Dwarf information.
 .IP "\fB\-G\fR" 4
 .IX Item "-G"
 .PD 0

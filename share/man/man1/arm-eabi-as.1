@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "AS 1"
-.TH AS 1 "2012-05-18" "binutils-2.22.52.0.3" "GNU Development Tools"
+.TH AS 1 "2012-06-20" "binutils-2.22.52.0.4" "GNU Development Tools"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -227,7 +227,7 @@ as [\fB\-a\fR[\fBcdghlns\fR][=\fIfile\fR]] [\fB\-\-alternate\fR] [\fB\-D\fR]
    [\fB\-l\fR] [\fB\-m68000\fR|\fB\-m68010\fR|\fB\-m68020\fR|...]
 .PP
 \&\fITarget M68HC11 options:\fR
-   [\fB\-m68hc11\fR|\fB\-m68hc12\fR|\fB\-m68hcs12\fR]
+   [\fB\-m68hc11\fR|\fB\-m68hc12\fR|\fB\-m68hcs12\fR|\fB\-mm9s12x\fR|\fB\-mm9s12xg\fR]
    [\fB\-mshort\fR|\fB\-mlong\fR]
    [\fB\-mshort\-double\fR|\fB\-mlong\-double\fR]
    [\fB\-\-force\-long\-branches\fR] [\fB\-\-short\-branches\fR]
@@ -1121,10 +1121,14 @@ Generate \*(L"little endian\*(R" format output.
 .PP
 The following options are available when as is configured for the
 Motorola 68HC11 or 68HC12 series.
-.IP "\fB\-m68hc11 | \-m68hc12 | \-m68hcs12\fR" 4
-.IX Item "-m68hc11 | -m68hc12 | -m68hcs12"
+.IP "\fB\-m68hc11 | \-m68hc12 | \-m68hcs12 | \-mm9s12x | \-mm9s12xg\fR" 4
+.IX Item "-m68hc11 | -m68hc12 | -m68hcs12 | -mm9s12x | -mm9s12xg"
 Specify what processor is the target.  The default is
 defined by the configuration option when building the assembler.
+.IP "\fB\-\-xgate\-ramoffset\fR" 4
+.IX Item "--xgate-ramoffset"
+Instruct the linker to offset \s-1RAM\s0 addresses from S12X address space into
+\&\s-1XGATE\s0 address space.
 .IP "\fB\-mshort\fR" 4
 .IX Item "-mshort"
 Specify to use the 16\-bit integer \s-1ABI\s0.
@@ -1155,10 +1159,10 @@ when the instruction does not support direct addressing mode.
 Print the syntax of instruction in case of error.
 .IP "\fB\-\-print\-opcodes\fR" 4
 .IX Item "--print-opcodes"
-print the list of instructions with syntax and then exit.
+Print the list of instructions with syntax and then exit.
 .IP "\fB\-\-generate\-example\fR" 4
 .IX Item "--generate-example"
-print an example of instruction for each possible instruction and then exit.
+Print an example of instruction for each possible instruction and then exit.
 This option is only useful for testing \fBas\fR.
 .PP
 The following options are available when \fBas\fR is configured

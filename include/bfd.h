@@ -32,6 +32,11 @@
 #ifndef __BFD_H_SEEN__
 #define __BFD_H_SEEN__
 
+/* PR 14072: Ensure that config.h is included first.  */
+#if !defined PACKAGE && !defined PACKAGE_VERSION
+#error config.h must be included before this header
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -280,18 +285,19 @@ alent;
 
 typedef struct bfd_section *sec_ptr;
 
-#define bfd_get_section_name(bfd, ptr) ((ptr)->name + 0)
-#define bfd_get_section_vma(bfd, ptr) ((ptr)->vma + 0)
-#define bfd_get_section_lma(bfd, ptr) ((ptr)->lma + 0)
-#define bfd_get_section_alignment(bfd, ptr) ((ptr)->alignment_power + 0)
+#define bfd_get_section_name(bfd, ptr) ((void) bfd, (ptr)->name)
+#define bfd_get_section_vma(bfd, ptr) ((void) bfd, (ptr)->vma)
+#define bfd_get_section_lma(bfd, ptr) ((void) bfd, (ptr)->lma)
+#define bfd_get_section_alignment(bfd, ptr) ((void) bfd, \
+					     (ptr)->alignment_power)
 #define bfd_section_name(bfd, ptr) ((ptr)->name)
 #define bfd_section_size(bfd, ptr) ((ptr)->size)
 #define bfd_get_section_size(ptr) ((ptr)->size)
 #define bfd_section_vma(bfd, ptr) ((ptr)->vma)
 #define bfd_section_lma(bfd, ptr) ((ptr)->lma)
 #define bfd_section_alignment(bfd, ptr) ((ptr)->alignment_power)
-#define bfd_get_section_flags(bfd, ptr) ((ptr)->flags + 0)
-#define bfd_get_section_userdata(bfd, ptr) ((ptr)->userdata)
+#define bfd_get_section_flags(bfd, ptr) ((void) bfd, (ptr)->flags)
+#define bfd_get_section_userdata(bfd, ptr) ((void) bfd, (ptr)->userdata)
 
 #define bfd_is_com_section(ptr) (((ptr)->flags & SEC_IS_COMMON) != 0)
 
@@ -699,7 +705,7 @@ extern int bfd_get_elf_phdrs
    the remote memory.  */
 extern bfd *bfd_elf_bfd_from_remote_memory
   (bfd *templ, bfd_vma ehdr_vma, bfd_vma *loadbasep,
-   int (*target_read_memory) (bfd_vma vma, bfd_byte *myaddr, int len));
+   int (*target_read_memory) (bfd_vma vma, bfd_byte *myaddr, size_t len));
 
 extern struct bfd_section *_bfd_elf_tls_setup
   (bfd *, struct bfd_link_info *);
@@ -1515,9 +1521,6 @@ typedef struct bfd_section
   /* The BFD which owns the section.  */
   bfd *owner;
 
-  /* INPUT_SECTION_FLAGS if specified in the linker script.  */
-  struct flag_info *section_flag_info;
-
   /* A symbol which points at this section only.  */
   struct bfd_symbol *symbol;
   struct bfd_symbol **symbol_ptr_ptr;
@@ -1696,9 +1699,6 @@ extern asection std_section[4];
   /* target_index, used_by_bfd, constructor_chain, owner,          */  \
      0,            NULL,        NULL,              NULL,               \
                                                                        \
-  /* flag_info,                                                    */  \
-     NULL,                                                             \
-                                                                       \
   /* symbol,                    symbol_ptr_ptr,                    */  \
      (struct bfd_symbol *) SYM, &SEC.symbol,                           \
                                                                        \
@@ -1709,6 +1709,8 @@ extern asection std_section[4];
 void bfd_section_list_clear (bfd *);
 
 asection *bfd_get_section_by_name (bfd *abfd, const char *name);
+
+asection *bfd_get_next_section_by_name (asection *sec);
 
 asection *bfd_get_section_by_name_if
    (bfd *abfd,
@@ -1948,6 +1950,7 @@ enum bfd_architecture
 #define bfd_mach_ppc_e5500     5006
 #define bfd_mach_ppc_e6500     5007
 #define bfd_mach_ppc_titan     83
+#define bfd_mach_ppc_vle       84
   bfd_arch_rs6000,    /* IBM RS/6000 */
 #define bfd_mach_rs6k          6000
 #define bfd_mach_rs6k_rs1      6001
@@ -1969,6 +1972,8 @@ enum bfd_architecture
 #define bfd_mach_m6812_default 0
 #define bfd_mach_m6812         1
 #define bfd_mach_m6812s        2
+  bfd_arch_m9s12x,   /* Freescale S12X */
+  bfd_arch_m9s12xg,  /* Freescale XGATE */
   bfd_arch_z8k,       /* Zilog Z8000 */
 #define bfd_mach_z8001         1
 #define bfd_mach_z8002         2
@@ -3101,6 +3106,23 @@ instruction.  */
   BFD_RELOC_PPC_EMB_RELST_HA,
   BFD_RELOC_PPC_EMB_BIT_FLD,
   BFD_RELOC_PPC_EMB_RELSDA,
+  BFD_RELOC_PPC_VLE_REL8,
+  BFD_RELOC_PPC_VLE_REL15,
+  BFD_RELOC_PPC_VLE_REL24,
+  BFD_RELOC_PPC_VLE_LO16A,
+  BFD_RELOC_PPC_VLE_LO16D,
+  BFD_RELOC_PPC_VLE_HI16A,
+  BFD_RELOC_PPC_VLE_HI16D,
+  BFD_RELOC_PPC_VLE_HA16A,
+  BFD_RELOC_PPC_VLE_HA16D,
+  BFD_RELOC_PPC_VLE_SDA21,
+  BFD_RELOC_PPC_VLE_SDA21_LO,
+  BFD_RELOC_PPC_VLE_SDAREL_LO16A,
+  BFD_RELOC_PPC_VLE_SDAREL_LO16D,
+  BFD_RELOC_PPC_VLE_SDAREL_HI16A,
+  BFD_RELOC_PPC_VLE_SDAREL_HI16D,
+  BFD_RELOC_PPC_VLE_SDAREL_HA16A,
+  BFD_RELOC_PPC_VLE_SDAREL_HA16D,
   BFD_RELOC_PPC64_HIGHER,
   BFD_RELOC_PPC64_HIGHER_S,
   BFD_RELOC_PPC64_HIGHEST,
@@ -4094,6 +4116,18 @@ instructions  */
 instructions  */
   BFD_RELOC_AVR_6_ADIW,
 
+/* This is a 8 bit reloc for the AVR that stores bits 0..7 of a symbol
+in .byte lo8(symbol)  */
+  BFD_RELOC_AVR_8_LO,
+
+/* This is a 8 bit reloc for the AVR that stores bits 8..15 of a symbol
+in .byte hi8(symbol)  */
+  BFD_RELOC_AVR_8_HI,
+
+/* This is a 8 bit reloc for the AVR that stores bits 16..23 of a symbol
+in .byte hlo8(symbol)  */
+  BFD_RELOC_AVR_8_HLO,
+
 /* Renesas RL78 Relocations.  */
   BFD_RELOC_RL78_NEG8,
   BFD_RELOC_RL78_NEG16,
@@ -4527,6 +4561,32 @@ This is a 4-bit pc-relative reloc.  */
 /* Freescale XGATE reloc.
 This is a 5-bit pc-relative reloc.  */
   BFD_RELOC_XGATE_IMM5,
+
+/* Motorola 68HC12 reloc.
+This is the 9 bits of a value.  */
+  BFD_RELOC_M68HC12_9B,
+
+/* Motorola 68HC12 reloc.
+This is the 16 bits of a value.  */
+  BFD_RELOC_M68HC12_16B,
+
+/* Motorola 68HC12/XGATE reloc.
+This is a PCREL9 branch.  */
+  BFD_RELOC_M68HC12_9_PCREL,
+
+/* Motorola 68HC12/XGATE reloc.
+This is a PCREL10 branch.  */
+  BFD_RELOC_M68HC12_10_PCREL,
+
+/* Motorola 68HC12/XGATE reloc.
+This is the 8 bit low part of an absolute address and immediately precedes
+a matching HI8XG part.  */
+  BFD_RELOC_M68HC12_LO8XG,
+
+/* Motorola 68HC12/XGATE reloc.
+This is the 8 bit high part of an absolute address and immediately follows
+a matching LO8XG part.  */
+  BFD_RELOC_M68HC12_HI8XG,
 
 /* NS CR16C Relocations.  */
   BFD_RELOC_16C_NUM08,
@@ -5796,8 +5856,8 @@ bfd_boolean bfd_set_private_flags (bfd *abfd, flagword flags);
 #define bfd_gc_sections(abfd, link_info) \
        BFD_SEND (abfd, _bfd_gc_sections, (abfd, link_info))
 
-#define bfd_lookup_section_flags(link_info, flag_info) \
-       BFD_SEND (abfd, _bfd_lookup_section_flags, (link_info, flag_info))
+#define bfd_lookup_section_flags(link_info, flag_info, section) \
+       BFD_SEND (abfd, _bfd_lookup_section_flags, (link_info, flag_info, section))
 
 #define bfd_merge_sections(abfd, link_info) \
        BFD_SEND (abfd, _bfd_merge_sections, (abfd, link_info))
@@ -6275,8 +6335,9 @@ typedef struct bfd_target
   bfd_boolean (*_bfd_gc_sections) (bfd *, struct bfd_link_info *);
 
   /* Sets the bitmask of allowed and disallowed section flags.  */
-  void (*_bfd_lookup_section_flags) (struct bfd_link_info *,
-                                     struct flag_info *);
+  bfd_boolean (*_bfd_lookup_section_flags) (struct bfd_link_info *,
+                                            struct flag_info *,
+                                            asection *);
 
   /* Attempt to merge SEC_MERGE sections.  */
   bfd_boolean (*_bfd_merge_sections) (bfd *, struct bfd_link_info *);

@@ -25,8 +25,8 @@ SECTIONS
   .rela.fini      : { *(.rela.fini) }
   .rel.rodata     : { *(.rel.rodata .rel.rodata.* .rel.gnu.linkonce.r.*) }
   .rela.rodata    : { *(.rela.rodata .rela.rodata.* .rela.gnu.linkonce.r.*) }
-  .rel.data.rel.ro   : { *(.rel.data.rel.ro* .rel.gnu.linkonce.d.rel.ro.*) }
-  .rela.data.rel.ro   : { *(.rela.data.rel.ro* .rela.gnu.linkonce.d.rel.ro.*) }
+  .rel.data.rel.ro   : { *(.rel.data.rel.ro .rel.data.rel.ro.* .rel.gnu.linkonce.d.rel.ro.*) }
+  .rela.data.rel.ro   : { *(.rela.data.rel.ro .rela.data.rel.ro.* .rela.gnu.linkonce.d.rel.ro.*) }
   .rel.data       : { *(.rel.data .rel.data.* .rel.gnu.linkonce.d.*) }
   .rela.data      : { *(.rela.data .rela.data.* .rela.gnu.linkonce.d.*) }
   .rel.tdata	  : { *(.rel.tdata .rel.tdata.* .rel.gnu.linkonce.td.*) }
@@ -158,7 +158,7 @@ SECTIONS
     KEEP (*(.dtors))
   }
   .jcr            : { KEEP (*(.jcr)) }
-  .data.rel.ro : { *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*) *(.data.rel.ro* .gnu.linkonce.d.rel.ro.*) }
+  .data.rel.ro : { *(.data.rel.ro.local* .gnu.linkonce.d.rel.ro.local.*) *(.data.rel.ro .data.rel.ro.* .gnu.linkonce.d.rel.ro.*) }
   .dynamic        : { *(.dynamic) }
   .got            : { *(.got.plt) *(.igot.plt) *(.got) *(.igot) }
   .data           :

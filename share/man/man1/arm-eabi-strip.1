@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "STRIP 1"
-.TH STRIP 1 "2012-05-18" "binutils-2.22.52.0.3" "GNU Development Tools"
+.TH STRIP 1 "2012-06-20" "binutils-2.22.52.0.4" "GNU Development Tools"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -138,6 +138,7 @@ strip [\fB\-F\fR \fIbfdname\fR |\fB\-\-target=\fR\fIbfdname\fR]
       [\fB\-O\fR \fIbfdname\fR |\fB\-\-output\-target=\fR\fIbfdname\fR]
       [\fB\-s\fR|\fB\-\-strip\-all\fR]
       [\fB\-S\fR|\fB\-g\fR|\fB\-d\fR|\fB\-\-strip\-debug\fR]
+      [\fB\-\-strip\-dwo\fR]
       [\fB\-K\fR \fIsymbolname\fR |\fB\-\-keep\-symbol=\fR\fIsymbolname\fR]
       [\fB\-N\fR \fIsymbolname\fR |\fB\-\-strip\-symbol=\fR\fIsymbolname\fR]
       [\fB\-w\fR|\fB\-\-wildcard\fR]
@@ -216,6 +217,12 @@ Remove all symbols.
 .IX Item "--strip-debug"
 .PD
 Remove debugging symbols only.
+.IP "\fB\-\-strip\-dwo\fR" 4
+.IX Item "--strip-dwo"
+Remove the contents of all \s-1DWARF\s0 .dwo sections, leaving the
+remaining debugging sections and all symbols intact.
+See the description of this option in the \fBobjcopy\fR section
+for more information.
 .IP "\fB\-\-strip\-unneeded\fR" 4
 .IX Item "--strip-unneeded"
 Remove all symbols that are not needed for relocation processing.
